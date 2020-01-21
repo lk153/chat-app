@@ -4,7 +4,7 @@ var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 app.use(express.static('public'));
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 const EVENT_CONNECT = "connect";
 const EVENT_DISCONNECT = "disconnect";
