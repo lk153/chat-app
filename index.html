@@ -58,10 +58,11 @@
             var socket = io();
             $('#register-form').submit(function(e) {
                 e.preventDefault();
-                $('#username').html($('#user').val());
+                var usernameVal = $('#user').val();
+                $('#username').html(usernameVal);
                 $(".input-register").remove();
                 socket.emit('register-user', {
-                    username: $('#user').val() 
+                    username: usernameVal
                 });
                 return false;
             });
