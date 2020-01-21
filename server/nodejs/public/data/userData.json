@@ -1,0 +1,84 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "name": "Louis Litt",
+            "avatar": "http://emilcarlsson.se/assets/louislitt.png"
+        },
+        {
+            "id": 2,
+            "name": "Harvey Specter",
+            "avatar": "http://emilcarlsson.se/assets/harveyspecter.png"
+        },
+        {
+            "id": 3,
+            "name": "Rachel Zane",
+            "avatar": "http://emilcarlsson.se/assets/rachelzane.png"
+        },
+        {
+            "id": 4,
+            "name": "Donna Paulsen",
+            "avatar": "http://emilcarlsson.se/assets/donnapaulsen.png"
+        },
+        {
+            "id": 5,
+            "name": "Jessica Pearson",
+            "avatar": "http://emilcarlsson.se/assets/jessicapearson.png"
+        },
+        {
+            "id": 6,
+            "name": "Harold Gunderson",
+            "avatar": "http://emilcarlsson.se/assets/haroldgunderson.png"
+        },
+        {
+            "id": 7,
+            "name": "Daniel Hardman",
+            "avatar": "http://emilcarlsson.se/assets/danielhardman.png"
+        },
+        {
+            "id": 8,
+            "name": "Katrina Bennett",
+            "avatar": "http://emilcarlsson.se/assets/katrinabennett.png"
+        },
+        {
+            "id": 9,
+            "name": "Charles Forstman",
+            "avatar": "http://emilcarlsson.se/assets/charlesforstman.png"
+        },
+        {
+            "id": 10,
+            "name": "Jonathan Sidwell",
+            "avatar": "http://emilcarlsson.se/assets/jonathansidwell.png"
+        }
+    ],
+    "messages": [
+        {
+            "user_id": 1,
+            "content": "Hello!"
+        },
+        {
+            "user_id": 1,
+            "content": "How are you?"
+        },
+        {
+            "user_id": 1,
+            "content": "Testing something with me"
+        },
+        {
+            "user_id": 2,
+            "content": "Okay!!!"
+        },
+        {
+            "user_id": 2,
+            "content": "I can do by myself. Don't worry"
+        },
+        {
+            "user_id": 3,
+            "content": "Good guys"
+        },
+        {
+            "user_id": 3,
+            "content": "Just do it"
+        }
+    ]
+}
