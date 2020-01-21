@@ -24,7 +24,7 @@
   <body>
     <div class="container-fluid">
         <form id="register-form" action="">
-            <div class="form-row">
+            <div class="form-row input-register">
                     <div class="form-group col-9">
                         <input class="form-control" id="user" autocomplete="off" />
                     </div>
@@ -59,6 +59,7 @@
             $('#register-form').submit(function(e) {
                 e.preventDefault();
                 $('#username').html($('#user').val());
+                $(".input-register").remove();
                 socket.emit('register-user', {
                     username: $('#user').val() 
                 });
