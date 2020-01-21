@@ -11,31 +11,45 @@
     <title>Socket.IO chat</title>
 
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font: 13px Helvetica, Arial; }
-        #register-form { background: #000; padding: 3px; width: 100%; }
-        #message-form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-        form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-        form button { width: 9%; background: rgb(107, 192, 221); border: none; padding: 10px; }
+        #register-form { background: #5c84da; padding: 5px; width: 100%; padding: 10px 15px;}
+        #message-form { background: #5c84da; padding: 5px; position: fixed; bottom: 0; width: 100%; padding: 10px 15px;}
         #messages { list-style-type: none; margin: 0; padding: 0; }
         #messages li { padding: 5px 10px; }
         #messages li:nth-child(odd) { background: rgb(224, 220, 220); }
-        #user-typing-status {position: fixed; bottom: 45px; left: 10px; font-style: italic; color: rgb(22, 19, 206); font-weight: bold;}
+        #user-typing-status {position: fixed; bottom: 70px; font-style: italic; color: rgb(109, 109, 123); font-weight: bold;}
+        #username {color: #fff}
     </style>
   </head>
   <body>
-    <form id="register-form" action="">
-        <input id="user" autocomplete="off" />
-        <button>Register</button>
-    </form>
-    <b>Account: <span id="username"></span></b>
-    
-    <ul id="messages"></ul>
-    <span id="user-typing-status"></span>
-    <form id="message-form" action="">
-        <input id="m" autocomplete="off" />
-        <button>Send</button>
-    </form>
+    <div class="container-fluid">
+        <form id="register-form" action="">
+            <div class="form-row">
+                    <div class="form-group col-9">
+                        <input class="form-control" id="user" autocomplete="off" />
+                    </div>
+                    <div class="form-group col-3">
+                        <button type="submit" class="btn btn-danger">Register</button>
+                    </div>
+            </div>
+            <div class="form-row">
+                <b>Account: <span id="username"></span></b>
+            </div>
+        </form>
+        
+        <ul id="messages"></ul>
+        <span id="user-typing-status"></span>
+        <form id="message-form" action="">
+                <div class="form-row">
+                    <div class="form-group col-9">
+                        <input class="form-control" id="m" autocomplete="off" />
+                    </div>
+                    <div class="form-group col-3">
+                        <button class="btn btn-danger">Send</button>
+                    </div>
+                </div>
+        </form>
+    </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
@@ -72,13 +86,13 @@
             });
 
             socket.on('chat-message', function(msg) {
-                $('#messages').append($('<li>').text(msg.username + ": " + msg.message));
+                $('#messages').append($('<li>').html("<b>" + msg.username + "</b>" + ": " + msg.message));
             });
             socket.on('registered-user', function(msg) {
                 alert(msg.username + " has onlined");
             });
             socket.on('user-typing', function(msg) {
-                $("#user-typing-status").html(msg.username + " is typing");
+                $("#user-typing-status").html(msg.username + " is typing ...");
             });
             socket.on('user-typing-focusout', function(msg) {
                 $("#user-typing-status").html("");
