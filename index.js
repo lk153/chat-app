@@ -1,7 +1,7 @@
 var app = require('express')();
 const express = require('express');
-var http = require('http').createServer(app);
-var io = require('socket.io')(http);
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
 app.use(express.static('public'));
 
 const PORT = process.env.PORT || 3000;
@@ -52,6 +52,6 @@ io.on(EVENT_CONNECT, function(socket) {
 
 });
 
-http.listen(PORT, function() {
+server.listen(PORT, function() {
     console.log('listening on *:' + PORT);
 });
