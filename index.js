@@ -26,7 +26,7 @@ app.get('/chat', function(req, res) {
 
 io.on(EVENT_CONNECT, function(socket) {
     socket.username = "Anonymous";
-    console.log('a user connected');
+    console.log('User connected');
 
     socket.on(EVENT_CHAT_MESSAGE, function(msg) {
         msg.username = socket.username;
@@ -34,7 +34,7 @@ io.on(EVENT_CONNECT, function(socket) {
     });
 
     socket.on(EVENT_DISCONNECT, function() {
-        console.log('user disconnected');
+        console.log('User disconnected');
     });
 
     socket.on(EVENT_REGISTER_USER, function(msg) {
@@ -49,6 +49,7 @@ io.on(EVENT_CONNECT, function(socket) {
     socket.on(EVENT_USER_TYPING_FOCUSOUT, function() {
         socket.broadcast.emit(EVENT_USER_TYPING_FOCUSOUT);
     });
+
 });
 
 http.listen(PORT, function() {
