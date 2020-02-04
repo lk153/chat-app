@@ -12,6 +12,8 @@
         "start": "nodemon --delay 3 ./index.js --exec babel-node --presets babel-preset-env --plugins babel-plugin-transform-class-properties"
     },
     "dependencies": {
+        "@babel/core": "^7.8.4",
+        "@babel/node": "^7.8.4",
         "babel-plugin-transform-class-properties": "^6.24.1",
         "express": "^4.17.1",
         "mongodb": "^3.5.2",
