@@ -1,11 +1,16 @@
-var app = require('express')();
-const express = require('express');
-var server = require('http').createServer(app);
-var io = require('socket.io')(server);
+import express from 'express';
+import http from 'http';
+import socketio from 'socket.io';
+import SocketCL from './socket.js';
+
+const app = express();
+const server = http.createServer(app);
+const io = socketio(server);
+(new SocketCL(io));
+
 app.use(express.static('public'));
 
 const PORT = process.env.PORT || 3000;
-
 const EVENT_CONNECT = "connect";
 const EVENT_DISCONNECT = "disconnect";
 const EVENT_CHAT_MESSAGE = "chat-message";
@@ -15,41 +20,11 @@ const EVENT_REGISTERED_USER = "registered-user";
 const EVENT_USER_TYPING = "user-typing";
 const EVENT_USER_TYPING_FOCUSOUT = "user-typing-focusout";
 
-
-
 app.get('/', function(req, res) {
     res.sendFile(__dirname + '/index.html');
 });
 app.get('/chat', function(req, res) {
     res.sendFile(__dirname + '/chat.html');
-});
-
-io.on(EVENT_CONNECT, function(socket) {
-    socket.username = "Anonymous";
-    console.log('User connected');
-
-    socket.on(EVENT_CHAT_MESSAGE, function(msg) {
-        msg.username = socket.username;
-        io.emit(EVENT_CHAT_MESSAGE, msg);
-    });
-
-    socket.on(EVENT_DISCONNECT, function() {
-        console.log('User disconnected');
-    });
-
-    socket.on(EVENT_REGISTER_USER, function(msg) {
-        socket.username = msg.username;
-        socket.broadcast.emit(EVENT_REGISTERED_USER, msg);
-    });
-
-    socket.on(EVENT_USER_TYPING, function() {
-        socket.broadcast.emit(EVENT_USER_TYPING, {username: socket.username});
-    });
-
-    socket.on(EVENT_USER_TYPING_FOCUSOUT, function() {
-        socket.broadcast.emit(EVENT_USER_TYPING_FOCUSOUT);
-    });
-
 });
 
 server.listen(PORT, function() {
