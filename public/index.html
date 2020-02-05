@@ -75,6 +75,12 @@
             bottom: 70px;
             left: 15px;
         }
+
+        .toast-user-offline {
+            position: absolute;
+            bottom: 70px;
+            left: 15px;
+        }
     </style>
 </head>
 
@@ -123,7 +129,19 @@
                 <strong class="mr-1">
                     <span class="user-online-alert text-capitalize"></span>
                 </strong>
-                <small class="text-muted">is online</small>
+                <small class="text-success">is online</small>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+        <div class="toast toast-user-offline" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
+            <div class="toast-header">
+                <img src="/image/user.png" class="rounded mr-2" alt="..." width="50px">
+                <strong class="mr-1">
+                    <span class="user-offline-alert text-capitalize"></span>
+                </strong>
+                <small class="text-danger">is offline</small>
                 <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -214,13 +232,19 @@
             });
             socket.on('registered-user', function (msg) {
                 $('.user-online-alert').html(msg.username);
-                $('.toast').toast('show');
+                $('.toast-user-offline').toast('hide');
+                $('.toast-user-online').toast('show');
             });
             socket.on('user-typing', function (msg) {
                 $("#user-typing-status").html(msg.username + " is typing ...");
             });
             socket.on('user-typing-focusout', function (msg) {
                 $("#user-typing-status").html("");
+            });
+            socket.on('user-offline', function (msg) {
+                $('.user-offline-alert').html(msg.username);
+                $('.toast-user-online').toast('hide');
+                $('.toast-user-offline').toast('show');
             });
         });
     </script>
