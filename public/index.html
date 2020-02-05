@@ -54,6 +54,7 @@
             font-style: italic;
             color: rgb(109, 109, 123);
             font-weight: bold;
+            margin-bottom: 10px;
         }
 
         #username {
@@ -67,6 +68,12 @@
             margin-bottom: 5px;
             font-weight: bold;
             color: dodgerblue;
+        }
+
+        .toast-user-online {
+            position: absolute;
+            bottom: 70px;
+            left: 15px;
         }
     </style>
 </head>
@@ -110,16 +117,30 @@
             </div>
         </div>
         <ul id="messages"></ul>
+        <div class="toast toast-user-online" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
+            <div class="toast-header">
+                <img src="/image/user.png" class="rounded mr-2" alt="..." width="50px">
+                <strong class="mr-1">
+                    <span class="user-online-alert text-capitalize"></span>
+                </strong>
+                <small class="text-muted">is online</small>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
         <span id="user-typing-status"></span>
         <form id="message-form" action="">
-            <div class="form-row">
-                <div class="form-group col-9">
-                    <input class="form-control" id="m" autocomplete="off" />
+            <fieldset disabled>
+                <div class="form-row">
+                    <div class="form-group col-9">
+                        <input class="form-control" id="m" autocomplete="off" />
+                    </div>
+                    <div class="form-group col-3">
+                        <button class="btn btn-danger">Send</button>
+                    </div>
                 </div>
-                <div class="form-group col-3">
-                    <button class="btn btn-danger">Send</button>
-                </div>
-            </div>
+            </fieldset>
         </form>
     </div>
 
@@ -134,6 +155,7 @@
                 var usernameVal = $('#user').val();
                 $('#username').html(usernameVal);
                 $(".input-register").remove();
+                $("#message-form fieldset").removeAttr('disabled');
                 socket.emit('register-user', {
                     username: usernameVal
                 });
@@ -168,9 +190,8 @@
                     json.map(data => {
                         $('#messages').append($('<li>').html("<h6 class='acc-name'>" + data.user + "</h6><div>" + data.content + "</div>"));
                     });
-                } else {
-                    $('#messages').append($('<li>').html("<div>New chat room</div>"));
                 }
+
                 $('#exampleModalCenter').modal('hide')
             });
 
@@ -178,7 +199,8 @@
                 $('#messages').append($('<li>').html("<h6 class='acc-name'>" + msg.username + "</h6><div>" + msg.message + "</div>"));
             });
             socket.on('registered-user', function (msg) {
-                alert(msg.username + " has onlined");
+                $('.user-online-alert').html(msg.username);
+                $('.toast').toast('show');
             });
             socket.on('user-typing', function (msg) {
                 $("#user-typing-status").html(msg.username + " is typing ...");
