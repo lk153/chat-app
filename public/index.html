@@ -129,7 +129,7 @@
                 </button>
             </div>
         </div>
-        <span id="user-typing-status" class="text-capitalize"></span>
+        <span id="user-typing-status"></span>
         <form id="message-form" action="">
             <fieldset disabled>
                 <div class="form-row">
@@ -156,6 +156,7 @@
                 $('#username').html(usernameVal);
                 $(".input-register").remove();
                 $("#message-form fieldset").removeAttr('disabled');
+                localStorage.setItem('username', usernameVal);
                 socket.emit('register-user', {
                     username: usernameVal
                 });
@@ -166,6 +167,7 @@
                 e.preventDefault();
                 if ($('#m').val()) {
                     socket.emit('chat-message', {
+                        username: localStorage.getItem('username'),
                         message: $('#m').val()
                     });
                     socket.emit("user-typing-focusout");
@@ -175,7 +177,9 @@
             });
 
             $("#m").on("keydown", function (e) {
-                socket.emit("user-typing");
+                socket.emit("user-typing", {
+                    username: localStorage.getItem('username')
+                });
             });
 
             $("#m").on("focusout", function (e) {
