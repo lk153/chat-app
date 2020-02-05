@@ -150,6 +150,16 @@
         $(function () {
             var lockingType = false;
             var socket = io();
+            var username = localStorage.getItem('username');
+            if (!!username) {
+                $('#username').html(username);
+                $(".input-register").remove();
+                $("#message-form fieldset").removeAttr('disabled');
+                socket.emit('user-online', {
+                    username: username
+                });
+            }
+
             $('#register-form').submit(function (e) {
                 e.preventDefault();
                 var usernameVal = $('#user').val();
@@ -157,7 +167,7 @@
                 $(".input-register").remove();
                 $("#message-form fieldset").removeAttr('disabled');
                 localStorage.setItem('username', usernameVal);
-                socket.emit('register-user', {
+                socket.emit('user-online', {
                     username: usernameVal
                 });
                 return false;
