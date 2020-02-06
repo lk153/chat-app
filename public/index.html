@@ -2,92 +2,160 @@
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
     <title>Socket.IO chat</title>
 
-    <style>
-        body {
-            font: 13px Helvetica, Arial;
-        }
-
-        #register-form {
-            background: #5c84da;
-            width: 100%;
-            padding: 10px 15px;
-            border-radius: 10px;
-        }
-
-        #message-form {
-            background: #5c84da;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            padding: 10px 15px;
-            border-radius: 10px;
-        }
-
-        #messages {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            margin-bottom: 80px;
-        }
-
-        #messages li {
-            padding: 5px 10px;
-        }
-
-        #messages li:nth-child(odd) {
-            background: rgb(224, 220, 220);
-        }
-
-        #user-typing-status {
-            position: fixed;
-            bottom: 70px;
-            font-style: italic;
-            color: rgb(109, 109, 123);
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        #username {
-            color: #fff;
-            text-transform: capitalize;
-            font-size: 16px;
-        }
-
-        .acc-name {
-            text-transform: capitalize;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: dodgerblue;
-        }
-
-        .toast-user-online {
-            position: absolute;
-            bottom: 70px;
-            left: 15px;
-        }
-
-        .toast-user-offline {
-            position: absolute;
-            bottom: 70px;
-            left: 15px;
-        }
-    </style>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/mdb.min.css">
+    <link rel="stylesheet" type="text/css" href="css/mdb-plugins-gathered.min.css">
+    <link href="css/style.css" rel="stylesheet">
 </head>
 
 <body>
+    <!-- Toast online/offline alert -->
+    <div class="toast toast-user-online" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
+        <div class="toast-header">
+            <img src="/image/user.png" class="rounded mr-2" alt="..." width="50px">
+            <strong class="mr-1">
+                            <span class="user-online-alert text-capitalize"></span>
+                        </strong>
+            <small class="text-success">is online</small>
+            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+        </div>
+    </div>
+    <div class="toast toast-user-offline" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
+        <div class="toast-header">
+            <img src="/image/user.png" class="rounded mr-2" alt="..." width="50px">
+            <strong class="mr-1">
+                            <span class="user-offline-alert text-capitalize"></span>
+                        </strong>
+            <small class="text-danger">is offline</small>
+            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+        </div>
+    </div>
+
+    <!-- Sidebar navigation -->
+    <div id="slide-out" class="side-nav fixed wide">
+        <ul class="custom-scrollbar">
+            <!-- Logo -->
+            <li>
+                <div class="logo-wrapper sn-ad-avatar-wrapper">
+                    <a href="#"><img src="/image/login_icon.png" class="rounded-circle"><span id="account-name">Viet Nguyen</span></a>
+                </div>
+            </li>
+
+            <!-- Side navigation links -->
+            <li>
+                <ul class="collapsible collapsible-accordion">
+                    <li>
+                        <a class="collapsible-header waves-effect arrow-r active">
+                            <i class="sv-slim-icon fas fa-chevron-right"></i> Invite people
+                            <i class="fas fa-angle-down rotate-icon"></i>
+                        </a>
+                        <div class="collapsible-body">
+                            <ul>
+                                <li>
+                                    <a href="#" class="waves-effect active">
+                                        <span class="sv-slim"> BP </span>
+                                        <span class="sv-normal">By phone number</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="waves-effect">
+                                        <span class="sv-slim"> BE </span>
+                                        <span class="sv-normal">By email</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <a class="collapsible-header waves-effect arrow-r">
+                            <i class="sv-slim-icon far fa-hand-point-right"></i>Instruction
+                            <i class="fas fa-angle-down rotate-icon"></i>
+                        </a>
+                        <div class="collapsible-body">
+                            <ul>
+                                <li>
+                                    <a href="#" class="waves-effect">
+                                        <span class="sv-slim"> FB </span>
+                                        <span class="sv-normal">For bloggers</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="waves-effect">
+                                        <span class="sv-slim"> FA </span>
+                                        <span class="sv-normal">For authors</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <a class="collapsible-header waves-effect arrow-r">
+                            <i class="sv-slim-icon fas fa-eye"></i> About
+                            <i class="fas fa-angle-down rotate-icon"></i>
+                        </a>
+                        <div class="collapsible-body">
+                            <ul>
+                                <li>
+                                    <a href="#" class="waves-effect">
+                                        <span class="sv-slim"> I </span>
+                                        <span class="sv-normal">Introduction</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="waves-effect">
+                                        <span class="sv-slim"> MM </span>
+                                        <span class="sv-normal">Monthly meetings</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <a class="collapsible-header waves-effect arrow-r">
+                            <i class="sv-slim-icon far fa-envelope"></i>Contact me
+                            <i class="fas fa-angle-down rotate-icon"></i>
+                        </a>
+                        <div class="collapsible-body">
+                            <ul>
+                                <li>
+                                    <a href="#" class="waves-effect">
+                                        <span class="sv-slim"> F </span>
+                                        <span class="sv-normal">FAQ</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="waves-effect">
+                                        <span class="sv-slim"> W </span>
+                                        <span class="sv-normal">Write a message</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <a id="toggle" class="waves-effect">
+                            <i class="sv-slim-icon fas fa-angle-double-left"></i>Minimize menu
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <div class="sidenav-bg rgba-orange-strong"></div>
+    </div>
+    <!--/. Sidebar navigation -->
     <div class="container-fluid">
         <form id="register-form" action="">
-            <div class="form-row input-register">
+            <div class="form-row align-items-center input-register">
                 <div class="form-group col-9">
                     <input class="form-control" id="user" autocomplete="off" />
                 </div>
@@ -95,12 +163,14 @@
                     <button type="submit" class="btn btn-danger">Register</button>
                 </div>
             </div>
-            <div class="form-row">
-                <b>Account: <span id="username"></span></b>
+            <div class="form-row align-items-center show-account-info">
+                <a href="#" data-activates="slide-out" class="btn btn-primary p-3 button-collapse"><i
+                        class="fas fa-bars"></i></a>
+                <img src="/image/online-status.png" width="20px" class="ml-3" />
+                <b><span id="username"></span></b>
             </div>
         </form>
-        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-body">
@@ -123,34 +193,11 @@
             </div>
         </div>
         <ul id="messages"></ul>
-        <div class="toast toast-user-online" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
-            <div class="toast-header">
-                <img src="/image/user.png" class="rounded mr-2" alt="..." width="50px">
-                <strong class="mr-1">
-                    <span class="user-online-alert text-capitalize"></span>
-                </strong>
-                <small class="text-success">is online</small>
-                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        </div>
-        <div class="toast toast-user-offline" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
-            <div class="toast-header">
-                <img src="/image/user.png" class="rounded mr-2" alt="..." width="50px">
-                <strong class="mr-1">
-                    <span class="user-offline-alert text-capitalize"></span>
-                </strong>
-                <small class="text-danger">is offline</small>
-                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        </div>
+        <div class="last-vision"></div>
         <span id="user-typing-status"></span>
         <form id="message-form" action="">
             <fieldset disabled>
-                <div class="form-row">
+                <div class="form-row align-items-center">
                     <div class="form-group col-9">
                         <input class="form-control" id="m" autocomplete="off" />
                     </div>
@@ -161,106 +208,18 @@
             </fieldset>
         </form>
     </div>
-
     <script src="/socket.io/socket.io.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-    <script>
-        $(function () {
-            var lockingType = false;
-            var socket = io();
-            var username = localStorage.getItem('username');
-            if (!!username) {
-                $('#username').html(username);
-                $(".input-register").remove();
-                $("#message-form fieldset").removeAttr('disabled');
-                socket.emit('user-online', {
-                    username: username
-                });
-            }
 
-            $('#register-form').submit(function (e) {
-                e.preventDefault();
-                var usernameVal = $('#user').val();
-                $('#username').html(usernameVal);
-                $(".input-register").remove();
-                $("#message-form fieldset").removeAttr('disabled');
-                localStorage.setItem('username', usernameVal);
-                socket.emit('user-online', {
-                    username: usernameVal
-                });
-                return false;
-            });
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/popper.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/mdb.min.js"></script>
+    <script type="text/javascript" src="js/scrolling-navbar.min.js"></script>
 
-            $('#message-form').submit(function (e) {
-                e.preventDefault();
-                if ($('#m').val()) {
-                    socket.emit('chat-message', {
-                        username: localStorage.getItem('username'),
-                        message: $('#m').val()
-                    });
-                    socket.emit("user-typing-focusout");
-                    $('#m').val('');
-                }
-                return false;
-            });
+    <div class="hiddendiv common"></div>
+    <script type="text/javascript" src="https://mdbootstrap.com/wp-content/themes/mdbootstrap4/js/plugins/mdb-plugins-gathered.min.js"></script>
 
-            $("#m").on("keydown", function (e) {
-                socket.emit("user-typing", {
-                    username: localStorage.getItem('username')
-                });
-            });
-
-            $("#m").on("focusout", function (e) {
-                socket.emit("user-typing-focusout");
-            });
-
-            $("#exampleModalCenter").modal("show");
-            fetch("/api/chats").then(data => {
-                return data.json();
-            }).then(json => {
-                if (!!json && json.length > 0) {
-                    json.map(data => {
-                        $('#messages').append($('<li>').html("<h6 class='acc-name'>" + data.user + "</h6><div>" + data.content + "</div>"));
-                    });
-                }
-
-                $('#exampleModalCenter').modal('hide')
-            });
-
-            socket.on('chat-message', function (msg) {
-                $('#messages').append($('<li>').html("<h6 class='acc-name'>" + msg.username + "</h6><div>" + msg.message + "</div>"));
-            });
-            socket.on('registered-user', function (msg) {
-                $('.user-online-alert').html(msg.username);
-                $('.toast-user-offline').toast('hide');
-                $('.toast-user-online').toast('show');
-            });
-            socket.on('user-typing', function (msg) {
-                $("#user-typing-status").html(msg.username + " is typing ...");
-            });
-            socket.on('user-typing-focusout', function (msg) {
-                $("#user-typing-status").html("");
-            });
-            socket.on('user-offline', function (msg) {
-                $('.user-offline-alert').html(msg.username);
-                $('.toast-user-online').toast('hide');
-                $('.toast-user-offline').toast('show');
-            });
-        });
-    </script>
-
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-        crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-        crossorigin="anonymous"></script>
+    <script type="text/javascript" src="js/chat.js"></script>
 </body>
 
 </html>

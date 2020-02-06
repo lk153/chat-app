@@ -1,0 +1,101 @@
+body {
+    font: 13px Helvetica, Arial;
+}
+
+.side-nav.wide.slim {
+    width: 3.75rem !important;
+}
+
+@-webkit-keyframes chartjs-render-animation {
+    from {
+        opacity: 0.99
+    }
+    to {
+        opacity: 1
+    }
+}
+
+@keyframes chartjs-render-animation {
+    from {
+        opacity: 0.99
+    }
+    to {
+        opacity: 1
+    }
+}
+
+.chartjs-render-monitor {
+    -webkit-animation: chartjs-render-animation 0.001s;
+    animation: chartjs-render-animation 0.001s;
+}
+
+#register-form {
+    background: #5c84da;
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 10px;
+    position: fixed;
+}
+
+.show-account-info {
+    display: none;
+}
+
+#message-form {
+    background: #5c84da;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 10px;
+}
+
+#messages {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    padding-top: 120px;
+    margin-bottom: 100px;
+}
+
+#messages li {
+    padding: 5px 10px;
+}
+
+#messages li:nth-child(odd) {
+    background: rgb(224, 220, 220);
+}
+
+#user-typing-status {
+    position: fixed;
+    bottom: 70px;
+    font-style: italic;
+    color: rgb(109, 109, 123);
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#username {
+    color: #fff;
+    text-transform: capitalize;
+    font-size: 16px;
+}
+
+.acc-name {
+    text-transform: capitalize;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: dodgerblue;
+}
+
+.toast-user-online {
+    position: absolute;
+    bottom: 70px;
+    left: 15px;
+}
+
+.toast-user-offline {
+    position: absolute;
+    bottom: 70px;
+    left: 15px;
+}
