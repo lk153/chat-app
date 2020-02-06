@@ -55,7 +55,7 @@ body {
     margin: 0;
     padding: 0;
     padding-top: 120px;
-    margin-bottom: 100px;
+    margin-bottom: 120px;
 }
 
 #messages li {
@@ -81,7 +81,7 @@ body {
     font-style: italic;
     color: rgb(109, 109, 123);
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
 }
 
 #username {
@@ -100,13 +100,13 @@ body {
 }
 
 .toast-user-online {
-    position: absolute;
-    bottom: 70px;
+    position: fixed;
+    bottom: 90px;
     left: 15px;
 }
 
 .toast-user-offline {
-    position: absolute;
-    bottom: 70px;
+    position: fixed;
+    bottom: 90px;
     left: 15px;
 }
