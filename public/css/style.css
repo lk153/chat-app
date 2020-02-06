@@ -66,6 +66,15 @@ body {
     background: rgb(224, 220, 220);
 }
 
+.message-timer {
+    margin-left: 5px;
+    color: #888888;
+}
+
+.message-content {
+    margin-bottom: 3px;
+}
+
 #user-typing-status {
     position: fixed;
     bottom: 70px;
@@ -83,9 +92,11 @@ body {
 
 .acc-name {
     text-transform: capitalize;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     font-weight: bold;
     color: dodgerblue;
+    display: inline-block;
+    margin-top: 3px;
 }
 
 .toast-user-online {

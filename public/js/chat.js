@@ -1,7 +1,7 @@
 function scrollBottom() {
     items = document.querySelectorAll(".last-vision");
     last = items[items.length - 1];
-    last.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" });
+    last.scrollIntoView();
 }
 
 function showUserLogged(username) {
@@ -36,10 +36,14 @@ $(function() {
 
     $('#message-form').submit(function(e) {
         e.preventDefault();
+        var date = new Date();
+        var time = date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+
         if ($('#m').val()) {
             socket.emit('chat-message', {
                 username: localStorage.getItem('username'),
-                message: $('#m').val()
+                message: $('#m').val(),
+                time
             });
             socket.emit("user-typing-focusout");
             $('#m').val('');
@@ -63,7 +67,7 @@ $(function() {
     }).then(json => {
         if (!!json && json.length > 0) {
             json.map(data => {
-                $('#messages').append($('<li class="dummy">').html("<h6 class='acc-name'>" + data.user + "</h6><div>" + data.content + "</div>"));
+                $('#messages').append($('<li class="dummy">').html("<h6 class='acc-name'>" + data.username + "</h6><span class='message-timer'>" + data.time + "</span><div class='message-content'>" + data.message + "</div>"));
             });
         }
 
@@ -72,7 +76,7 @@ $(function() {
     });
 
     socket.on('chat-message', function(msg) {
-        $('#messages').append($('<li class="dummy">').html("<h6 class='acc-name'>" + msg.username + "</h6><div>" + msg.message + "</div>"));
+        $('#messages').append($('<li class="dummy">').html("<h6 class='acc-name'>" + msg.username + "</h6><span class='message-timer'>" + msg.time + "</span><div class='message-content'>" + msg.message + "</div>"));
         scrollBottom();
     });
     socket.on('registered-user', function(msg) {
