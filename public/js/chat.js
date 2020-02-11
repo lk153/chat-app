@@ -4,10 +4,11 @@ const EVENT_USER_OFFLINE = "user-offline";
 const EVENT_REGISTERED_USER = "registered-user";
 const EVENT_USER_TYPING = "user-typing";
 const EVENT_USER_TYPING_FOCUSOUT = "user-typing-focusout";
+const EVENT_USER_JOIN_ROOM = "user-join-room";
 
 //default built-in socket.io event 
 const EVENT_SOCKET_CONNECT = "connect";
-const EVENT_SOCKET_RECONNECT = "reconnecting";
+const EVENT_SOCKET_RECONNECT = "reconnect_attempt";
 const EVENT_SOCKET_RECONNECT_ERROR = "reconnect_error";
 
 function loadChatHistory() {
@@ -42,12 +43,19 @@ function showUserLogged(username) {
     $("#message-form fieldset").removeAttr('disabled');
 }
 
-//Choose room chat
+//User join room
 function initChatRoom(socket) {
     $('ul.room-option li').on("click", function(e) {
-        alert($(this).data("room"));
+        let room = $(this).data("room");
+        const username = localStorage.getItem('username');
+        const gender = localStorage.getItem('gender');
+        localStorage.setItem('room', room);
+        socket.emit(EVENT_USER_JOIN_ROOM, {
+            username,
+            gender,
+            room
+        });
     });
-
 }
 
 function initSocketListener(socket) {
@@ -110,6 +118,7 @@ function initChatInteraction(socket) {
         e.preventDefault();
         var username = $('#user').val();
         var gender = $('input[name="gender"]:checked').val();
+
         showUserLogged(username);
         localStorage.setItem('username', username);
         localStorage.setItem('gender', gender);
@@ -125,14 +134,18 @@ function initChatInteraction(socket) {
         e.preventDefault();
         var date = new Date();
         var time = date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+        var room = localStorage.getItem('room');
 
         if ($('#m').val()) {
             socket.emit('chat-message', {
                 username: localStorage.getItem('username'),
                 message: $('#m').val(),
-                time
+                time,
+                room
             });
-            socket.emit("user-typing-focusout");
+            socket.emit("user-typing-focusout", {
+                room
+            });
             $('#m').val('');
         }
         return false;
@@ -140,19 +153,25 @@ function initChatInteraction(socket) {
 
     //User is typing
     $("#m").on("keydown", function(e) {
+        var room = localStorage.getItem('room');
         socket.emit("user-typing", {
-            username: localStorage.getItem('username')
+            username: localStorage.getItem('username'),
+            room
+
         });
     });
 
     //User is not typing
     $("#m").on("focusout", function(e) {
-        socket.emit("user-typing-focusout");
+        var room = localStorage.getItem('room');
+        socket.emit("user-typing-focusout", {
+            room
+        });
     });
 }
 
 $(function() {
-    var socket = io({
+    var socket = io('/admin', {
         reconnection: true
     });
 
