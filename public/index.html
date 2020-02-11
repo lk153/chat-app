@@ -118,10 +118,20 @@
     <div class="container-fluid">
         <form id="register-form" action="">
             <div class="form-row align-items-center input-register">
-                <div class="form-group col-9">
-                    <input class="form-control" id="user" autocomplete="off" />
+                <div class="form-group col-md-8">
+                    <input class="form-control" id="user" autocomplete="off" placeholder="Input your username" />
                 </div>
-                <div class="form-group col-3">
+                <div class="form-group col-md-2">
+                    <div class="form-check">
+                        <input class="form-control form-check-input" type="radio" id="gender1" name="gender" value="male" checked>
+                        <label class="form-check-label" for="gender1">Male</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-control form-check-input" type="radio" id="gender2" name="gender" value="female">
+                        <label class="form-check-label" for="gender2">Female</label>
+                    </div>
+                </div>
+                <div class="form-group col-md-2">
                     <button type="submit" class="btn btn-danger">Register</button>
                 </div>
             </div>
@@ -160,10 +170,10 @@
         <form id="message-form" action="">
             <fieldset disabled>
                 <div class="form-row align-items-center">
-                    <div class="form-group col-9">
-                        <input class="form-control" id="m" autocomplete="off" />
+                    <div class="form-group col-md-9 col-8">
+                        <input class="form-control" id="m" autocomplete="off" placeholder="Type a message" />
                     </div>
-                    <div class="form-group col-3">
+                    <div class="form-group col-md-3 col-4">
                         <button class="btn btn-danger">Send</button>
                     </div>
                 </div>

@@ -110,3 +110,15 @@ body {
     bottom: 90px;
     left: 15px;
 }
+
+#register-form .form-check-input[type="radio"]:checked+label:after {
+    background-color: #5eba7d;
+}
+
+#register-form .form-check-input[type="radio"]:checked+label:after {
+    border: 2px solid #5eba7d;
+}
+
+#register-form .form-check-input[type="radio"]:checked+label {
+    color: #ffffff;
+}

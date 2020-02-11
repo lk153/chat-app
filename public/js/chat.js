@@ -96,24 +96,31 @@ function initSideBarMenu() {
 function initChatInteraction(socket) {
     $("#exampleModalCenter").modal({ "backdrop": "static", "show": true });
     const username = localStorage.getItem('username');
+    const gender = localStorage.getItem('gender');
     if (!!username) {
         showUserLogged(username);
         socket.emit(EVENT_USER_ONLINE, {
-            username: username
+            username,
+            gender
         });
     }
 
+    //Register user
     $('#register-form').submit(function(e) {
         e.preventDefault();
         var username = $('#user').val();
+        var gender = $('input[name="gender"]:checked').val();
         showUserLogged(username);
         localStorage.setItem('username', username);
+        localStorage.setItem('gender', gender);
         socket.emit(EVENT_USER_ONLINE, {
-            username: username
+            username,
+            gender
         });
         return false;
     });
 
+    //Chat message
     $('#message-form').submit(function(e) {
         e.preventDefault();
         var date = new Date();
@@ -131,12 +138,14 @@ function initChatInteraction(socket) {
         return false;
     });
 
+    //User is typing
     $("#m").on("keydown", function(e) {
         socket.emit("user-typing", {
             username: localStorage.getItem('username')
         });
     });
 
+    //User is not typing
     $("#m").on("focusout", function(e) {
         socket.emit("user-typing-focusout");
     });
