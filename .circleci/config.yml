@@ -5,4 +5,14 @@ jobs:
       - image: vietnguyen148/chat-app:latest
     steps:
       - checkout
-      - run: echo "A first hello"
+      - run: |
+         echo "$DOCKER_PASS" | docker login --username $DOCKER_USER --password-stdin
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run: |
+          TAG=latest
+          docker build -t vietnguyen148/chat-app:$TAG .
+          echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+          docker push vietnguyen148/chat-app:$TAG
+
+
