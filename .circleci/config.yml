@@ -5,9 +5,9 @@ jobs:
       - image: vietnguyen148/chat-app:latest
     steps:
       - checkout
+      - setup_remote_docker
       - run: |
          echo "$DOCKER_PASS" | docker login --username $DOCKER_USER --password-stdin
-      - setup_remote_docker
       - run: |
           TAG=latest
           docker build -t vietnguyen148/chat-app:$TAG .
