@@ -1,8 +1,7 @@
-version: 2.1
+version: 2
 jobs:
   build:
-    docker:
-      - image: vietnguyen148/chat-app:latest
+    machine: true
     steps:
       - checkout
       - setup_remote_docker
