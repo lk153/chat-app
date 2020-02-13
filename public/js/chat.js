@@ -49,7 +49,7 @@ function showUserLogged(username) {
 
 //User join room
 function chatRoomHandler(socket) {
-    $("ul.room-option li").on("click", function(e) {
+    $("ul.room-option li").on("click", (e) => {
         let room = $(this).data("room");
         const username = localStorage.getItem("username");
         const gender = localStorage.getItem("gender");
@@ -103,11 +103,8 @@ function initSocketListener(socket) {
         if (socket.connected) {
             const username = localStorage.getItem("username");
             const gender = localStorage.getItem("gender");
-            if (localStorage.getItem("room") == null) {
-                localStorage.setItem("room", "General");
-            }
             const room = localStorage.getItem("room");
-            if (!!username) {
+            if (!!username && !!room) {
                 socket.emit(EVENT_USER_ONLINE, {
                     username,
                     gender,
@@ -135,27 +132,12 @@ function initSideBarMenu() {
 
 //Chat CTA (Call to Action)
 function initChatInteraction(socket) {
-    const username = localStorage.getItem("username");
-    const gender = localStorage.getItem("gender");
-    if (localStorage.getItem("room") == null) {
-        localStorage.setItem("room", "General");
-    }
-    const room = localStorage.getItem("room");
     if (!!username) {
         showUserLogged(username);
-        socket.emit(EVENT_USER_ONLINE, {
-            username,
-            gender,
-            room
-        }, (flag) => {
-            if (flag == true) {
-                loadChatHistory(room);
-            }
-        });
     }
 
     //Register user
-    $("#register-form").submit(function(e) {
+    $("#register-form").submit((e) => {
         e.preventDefault();
         var username = $("#user").val();
         var gender = $("input[name='gender']:checked").val();
@@ -177,7 +159,7 @@ function initChatInteraction(socket) {
     });
 
     //Chat message
-    $("#message-form").submit(function(e) {
+    $("#message-form").submit((e) => {
         e.preventDefault();
         var date = new Date();
         var time = date.toLocaleString("en-US", { hour: "numeric", minute: "numeric", hour12: true });
