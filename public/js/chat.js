@@ -38,7 +38,7 @@ function scrollBottom() {
     last.scrollIntoView();
 }
 
-//Show alert who online
+//Show logged user info
 function showUserLogged(username) {
     $("#username").html(username);
     $("#account-name").html(username);
@@ -74,12 +74,8 @@ function initSocketListener(socket) {
     });
     socket.on(EVENT_REGISTERED_USER, function(msg) {
         $(".user-online-alert").html(msg.username);
-        $(".toast-user-offline").find("img").attr("src", "/image/" + msg.gender + ".png");
-        $(".toast-user-online").find("img").attr("src", "/image/" + msg.gender + ".png");
-        setTimeout(() => {
-            $(".toast-user-offline").toast("hide");
-            $(".toast-user-online").toast("show");
-        }, 300);
+        $(".toast-user-offline").toast("hide");
+        $(".toast-user-online-" + msg.gender).toast("show");
     });
     socket.on(EVENT_USER_TYPING, function(msg) {
         $("#user-typing-status").html(msg.username + " is typing ...");
@@ -89,12 +85,8 @@ function initSocketListener(socket) {
     });
     socket.on(EVENT_USER_OFFLINE, function(msg) {
         $(".user-offline-alert").html(msg.username);
-        $(".toast-user-online").find("img").attr("src", "/image/" + msg.gender + ".png");
-        $(".toast-user-offline").find("img").attr("src", "/image/" + msg.gender + ".png");
-        setTimeout(() => {
-            $(".toast-user-online").toast("hide");
-            $(".toast-user-offline").toast("show");
-        }, 300);
+        $(".toast-user-online").toast("hide");
+        $(".toast-user-offline-" + msg.gender).toast("show");
     });
     socket.on(EVENT_SOCKET_RECONNECTING, function() {
         $("#exampleModalCenter").modal({ "backdrop": "static", "show": true });
@@ -132,7 +124,9 @@ function initSideBarMenu() {
 
 //Chat CTA (Call to Action)
 function initChatInteraction(socket) {
-    if (!!username) {
+    const username = localStorage.getItem("username");
+    const gender = localStorage.getItem("gender");
+    if (!!username && !!gender) {
         showUserLogged(username);
     }
 
@@ -146,6 +140,7 @@ function initChatInteraction(socket) {
         showUserLogged(username);
         localStorage.setItem("username", username);
         localStorage.setItem("gender", gender);
+        localStorage.setItem("room", room);
         socket.emit(EVENT_USER_ONLINE, {
             username,
             gender,
@@ -186,17 +181,16 @@ function initChatInteraction(socket) {
     //User is typing
     $("#m").on("keydown", function(e) {
         var room = localStorage.getItem("room");
-        socket.emit("user-typing", {
+        socket.emit(EVENT_USER_TYPING, {
             username: localStorage.getItem("username"),
             room
-
         });
     });
 
     //User is not typing
     $("#m").on("focusout", function(e) {
         var room = localStorage.getItem("room");
-        socket.emit("user-typing-focusout", {
+        socket.emit(EVENT_USER_TYPING_FOCUSOUT, {
             room
         });
     });

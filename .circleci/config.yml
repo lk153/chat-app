@@ -2,16 +2,31 @@ version: 2
 jobs:
   build:
     docker:
-      - image: docker:17.05.0-ce-git
+      - image: circleci/node:13.8.0
     steps:
       - checkout
       - setup_remote_docker
-      - run: |
-         echo "$DOCKER_PASS" | docker login --username $DOCKER_USER --password-stdin
-      - run: |
-          TAG=latest
-          docker build -t vietnguyen148/chat-app:$TAG .
-          echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-          docker push vietnguyen148/chat-app:$TAG
-
-
+      - run:
+          name: NPM update
+          command: |
+            sudo npm install -g npm@latest
+      - run:
+          name: Run Unit Test for Chat
+          command: |
+            sudo npm run test
+      - run:
+          name: Current version of Docker
+          command: docker -v
+      - run: 
+          name: Docker build image
+          command: |
+            TAG=latest
+            docker build -t vietnguyen148/chat-app:$TAG .
+      - run: 
+          name: Docker login
+          command: |
+            echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+      - run: 
+          name: Docker push image
+          command: |
+            docker push vietnguyen148/chat-app:$TAG
