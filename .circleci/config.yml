@@ -11,6 +11,10 @@ jobs:
           command: |
             sudo npm install -g npm@latest
       - run:
+          name: NPM install
+          command: |
+            sudo npm install
+      - run:
           name: Run Unit Test for Chat
           command: |
             sudo npm run test
