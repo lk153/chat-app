@@ -49,7 +49,7 @@ function showUserLogged(username) {
 
 //User join room
 function chatRoomHandler(socket) {
-    $("ul.room-option li").on("click", (e) => {
+    $("ul.room-option li").on("click", function(e) {
         let room = $(this).data("room");
         const username = localStorage.getItem("username");
         const gender = localStorage.getItem("gender");
@@ -131,7 +131,7 @@ function initChatInteraction(socket) {
     }
 
     //Register user
-    $("#register-form").submit((e) => {
+    $("#register-form").submit(function(e) {
         e.preventDefault();
         var username = $("#user").val();
         var gender = $("input[name='gender']:checked").val();
@@ -154,7 +154,7 @@ function initChatInteraction(socket) {
     });
 
     //Chat message
-    $("#message-form").submit((e) => {
+    $("#message-form").submit(function(e) {
         e.preventDefault();
         var date = new Date();
         var time = date.toLocaleString("en-US", { hour: "numeric", minute: "numeric", hour12: true });
