@@ -33,4 +33,5 @@ jobs:
       - run: 
           name: Docker push image
           command: |
+            TAG=latest
             docker push vietnguyen148/chat-app:$TAG
